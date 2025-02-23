@@ -51,7 +51,7 @@ function createClassificationMap(text) {
     return codeToDesc;
 }
 
-// Add this near the top of script.js
+// Debounce function
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -67,24 +67,29 @@ function debounce(func, wait) {
 // Create a debounced version of filterTable
 const debouncedFilterTable = debounce(filterTable, 300);
 
-function loadGoogleSheetData() {
-    const url = "https://script.google.com/macros/s/AKfycbxrDFOtiwoJugSRxkSLpj5uCFRKJC2vFWqF7dQtAkL7aOn-lL-95xVLhB2NreueIPhfpw/exec";
-    document.getElementById("loading").style.display = "block";
+// Functie om data te laden van JSON-bestand
+function loadData() {
+    const loadingElement = document.getElementById("loading");
+    loadingElement.style.display = "block";
     
-    fetch(url)
-        .then(response => response.json())
-        .then(json => {
-            document.getElementById("loading").style.display = "none";
-            if (json.error) {
-                console.error("Fout bij ophalen data:", json.error);
-                return;
+    // Update this URL to your GitHub repository
+    fetch('https://raw.githubusercontent.com/MatCoEng/EPBD-Search/main/data/epbd-data.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            return response.json();
+        })
+        .then(json => {
+            loadingElement.style.display = "none";
             sheetData = json;
             updateTable("nl");
         })
         .catch(error => {
-            document.getElementById("loading").style.display = "none";
-            console.error("Fout bij laden van Google Sheet data:", error);
+            loadingElement.style.display = "none";
+            console.error("Error loading data:", error);
+            document.getElementById("table-container").innerHTML = 
+                `<div class="error-message">Error loading data: ${error.message}</div>`;
         });
 }
 
