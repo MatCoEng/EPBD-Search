@@ -1,0 +1,11 @@
+Copy{
+    "headers": {
+      "nl": ["Geldigheid", "Merk", "Product Naam", "Classificatie", ...],
+      "fr": ["Validité", "Marque", "Nom du produit", "Classification", ...]
+    },
+    "data": [
+      ["2024-01-01 tot 2025-12-31", "BrandA", "ProductA", "1.1.1.1", ...],
+      ["2024-02-01 tot 2025-11-30", "BrandB", "ProductB", "1.1.1.2", ...],
+      // ... more rows
+    ]
+  }
