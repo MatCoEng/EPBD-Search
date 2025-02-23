@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EPBD Product Zoeken</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body onload="loadGoogleSheetData()">
+  <h1>EPBD Product Zoeken</h1>
+  
+  <label for="language">Kies een taal:</label>
+  <select id="language" onchange="updateTable(this.value)">
+    <option value="nl">Nederlands</option>
+    <option value="fr">Frans</option>
+  </select>
+  
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Zoek in alle kolommen..." oninput="filterTable()">
+  </div>
+  
+  <div class="filter-container">
+    <div class="filter-group">
+      <label for="dateInput">
+        <input type="checkbox" id="dateFilter" onchange="filterTable()">
+        Datum Bouwaanvraag:
+      </label>
+      <input type="date" id="dateInput" onchange="filterTable()">
+    </div>
+    
+    <div class="filter-group">
+      <label for="thicknessInput">
+        <input type="checkbox" id="thicknessFilter" onchange="filterTable()">
+        Dikte (in meters):
+      </label>
+      <input type="number" id="thicknessInput" step="0.01" placeholder="0.00" onchange="filterTable()">
+    </div>
+  </div>
+  
+  <div id="loading">🔄 Gegevens laden...</div>
+  
+  <div id="table-container"></div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

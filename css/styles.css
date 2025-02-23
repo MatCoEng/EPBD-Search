@@ -1,0 +1,131 @@
+/* styles.css */
+
+/* General styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f7f9;
+    color: #333;
+    margin: 20px;
+  }
+  
+  h1 {
+    color: #1f497d;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  /* Container styling */
+  .search-container, .filter-container {
+    margin: 20px auto;
+    max-width: 1000px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  #searchInput {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Table styling */
+  table {
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #1f497d;
+    color: #fff;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Highlight styling for search terms */
+  .highlight {
+    background-color: #ffeb3b;
+    padding: 2px 4px;
+    border-radius: 2px;
+  }
+  
+  /* Filter styling */
+  .filter-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  
+  .filter-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: #555;
+  }
+  
+  .number-input {
+    width: 120px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* Loading indicator */
+  #loading {
+    text-align: center;
+    font-weight: 500;
+    margin: 20px auto;
+    font-size: 1.2em;
+    color: #1f497d;
+  }
+  
+  /* Language selector styling */
+  #language {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 20px;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .search-container, .filter-container {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    #searchInput {
+      width: 100%;
+    }
+    
+    .filter-group {
+      width: 100%;
+    }
+  }
