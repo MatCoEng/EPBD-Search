@@ -51,6 +51,22 @@ function createClassificationMap(text) {
     return codeToDesc;
 }
 
+// Add this near the top of script.js
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Create a debounced version of filterTable
+const debouncedFilterTable = debounce(filterTable, 300);
+
 function loadGoogleSheetData() {
     const url = "https://script.google.com/macros/s/AKfycbxrDFOtiwoJugSRxkSLpj5uCFRKJC2vFWqF7dQtAkL7aOn-lL-95xVLhB2NreueIPhfpw/exec";
     document.getElementById("loading").style.display = "block";
