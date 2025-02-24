@@ -9,7 +9,7 @@
       "Transmission solaire",
       "R?flexion ext?rieure",
       "R?flexion int?rieure",
-      "R?sistance thermique"
+      "Position"
     ],
     "nl": [
       "Geldigheid",
@@ -19,7 +19,7 @@
       "Zontransmissie",
       "Zonreflectie buitenzijde",
       "Zonreflectie binnenzijde",
-      "Thermische weerstand"
+      "Positie"
     ]
   },
   "data": [
