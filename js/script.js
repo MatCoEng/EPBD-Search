@@ -236,6 +236,12 @@ function updateTable(language) {
     const headers = sheetData[currentSheet].headers[language];
     const data = sheetData[currentSheet].data;
 
+    // Check if thickness filter should be visible based on sheet type
+    const thicknessFilterContainer = document.getElementById("thicknessFilter").parentElement.parentElement;
+    if (thicknessFilterContainer) {
+        thicknessFilterContainer.style.display = ['1-1-1', '1-1-2', '1-2'].includes(currentSheet) ? 'block' : 'none';
+    }
+
     let table = document.createElement("table");
     table.border = "1";
 
@@ -260,7 +266,8 @@ function updateTable(language) {
         let tr = document.createElement("tr");
         row.forEach((cell, index) => {
             let td = document.createElement("td");
-            if (index === 3 && codeToDesc[cell]) {
+            // Special handling for type column in insulation materials
+            if (index === 3 && ['1-1-1', '1-1-2', '1-2', '2-3'].includes(currentSheet) && codeToDesc[cell]) {
                 td.textContent = codeToDesc[cell];
             } else {
                 td.textContent = cell;
@@ -316,9 +323,9 @@ function filterTable() {
             matchesDate = isWithinDateRange(dateInput, validityRange);
         }
 
-        // Thickness filter
+        // Thickness filter - only apply for insulation sheets
         let matchesThickness = true;
-        if (filterByThickness && thicknessInput) {
+        if (filterByThickness && thicknessInput && ['1-1-1', '1-1-2', '1-2'].includes(currentSheet)) {
             const thicknessRange = originalValues[4];
             matchesThickness = isWithinThicknessRange(thicknessInput, thicknessRange);
         }
