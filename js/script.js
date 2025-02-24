@@ -33,7 +33,24 @@ const classificatieData = `1.1.1.1Minerale wolMW
 1.1.2.9Materiaal op basis van lichte korrels van geëxpandeerde klei - in bulkLWA
 1.1.2.10Cellulose - in bulk
 1.1.2.11Materiaal op basis van dierlijke en/of plantaardige vezels
-1.1.2.20Anderen`;
+1.1.2.20Anderen
+1.2.1.1Metselwerkelement - steen van gebakken aarde
+1.2.1.2Metselwerkelement - kalkzandsteen
+1.2.1.3Metselwerkelement - beton met aggregaten (gewone en lichte aggregaten)
+1.2.1.4Metselwerkelement - geautoclaveerde cellenbeton
+1.2.1.5Metselwerkelement - kunststeen
+1.2.1.6Metselwerkelement - natuursteen
+1.2.2.1Beton en mortel - zwaar normaal beton
+1.2.2.2Beton en mortel - licht beton en mortel met lichte isolerende vulstoffen (densiteit < 1600 kg/m³)
+1.2.3Hout en houtderivaten
+1.2.4Composietproduct (sandwichpaneel, enz.)
+1.2.5Anderen (glas, bitumen, plastiek, enz.)
+2.3.1Buitenzonwering met doek
+2.3.2Buitenzonwering met lamellen
+2.3.3Luiken en rolluiken
+2.3.4Binnenzonwering met doek
+2.3.5Binnenzonwering met lamellen
+2.3.6Anderen`;
 
 // Helper functions
 function createClassificationMap(text) {
@@ -73,7 +90,7 @@ function loadData() {
     loadingElement.style.display = "block";
     
     // Array of sheet IDs to load
-    const sheetIds = ['1-1-1', '1-1-2', '1-2'];
+    const sheetIds = ['1-1-1', '1-1-2', '1-2', '2-3'];
     const promises = [];
     
     // Create a promise for each JSON file
