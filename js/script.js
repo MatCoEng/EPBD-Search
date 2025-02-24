@@ -1,7 +1,7 @@
 // script.js
-
 let currentLanguage = 'nl';
-let sheetData = null;
+let sheetData = {}; // Changed to object to store all sheet data
+let currentSheet = '1-1-1'; // Default active sheet
 let currentSortColumn = -1;
 let currentSortOrder = 'asc';
 
@@ -72,25 +72,85 @@ function loadData() {
     const loadingElement = document.getElementById("loading");
     loadingElement.style.display = "block";
     
-    // Update this URL to your GitHub repository
-    fetch('https://raw.githubusercontent.com/MatCoEng/EPBD-Search/main/data/epbd-data.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+    // Array of sheet IDs to load
+    const sheetIds = ['1-1-1', '1-1-2', '1-2'];
+    const promises = [];
+    
+    // Create a promise for each JSON file
+    sheetIds.forEach(sheetId => {
+        const promise = fetch(`https://raw.githubusercontent.com/MatCoEng/EPBD-Search/main/data/epbd-data-${sheetId}.json`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status} for sheet ${sheetId}`);
+                }
+                return response.json();
+            })
+            .then(json => {
+                sheetData[sheetId] = json;
+                return true;
+            })
+            .catch(error => {
+                console.error(`Error loading data for sheet ${sheetId}:`, error);
+                return false;
+            });
+        
+        promises.push(promise);
+    });
+    
+    // Wait for all promises to resolve
+    Promise.all(promises)
+        .then(results => {
+            loadingElement.style.display = "none";
+            
+            // Check if at least one file was loaded successfully
+            if (results.some(success => success)) {
+                // Set the current sheet to the first successful one
+                for (const sheetId of sheetIds) {
+                    if (sheetData[sheetId]) {
+                        currentSheet = sheetId;
+                        break;
+                    }
+                }
+                
+                updateTable(currentLanguage);
+                setupTabButtons();
+            } else {
+                document.getElementById("table-container").innerHTML = 
+                    `<div class="error-message">Error: Could not load any data files.</div>`;
             }
-            return response.json();
-        })
-        .then(json => {
-            loadingElement.style.display = "none";
-            sheetData = json;
-            updateTable("nl");
-        })
-        .catch(error => {
-            loadingElement.style.display = "none";
-            console.error("Error loading data:", error);
-            document.getElementById("table-container").innerHTML = 
-                `<div class="error-message">Error loading data: ${error.message}</div>`;
         });
+}
+
+function setupTabButtons() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    
+    tabButtons.forEach(button => {
+        const sheetId = button.getAttribute('data-sheet');
+        
+        // Skip if we don't have data for this sheet
+        if (!sheetData[sheetId]) {
+            button.disabled = true;
+            button.title = "Data unavailable";
+            return;
+        }
+        
+        button.addEventListener('click', () => {
+            // Do nothing if this tab is already active
+            if (currentSheet === sheetId) return;
+            
+            // Update active tab
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+            
+            // Update current sheet and refresh table
+            currentSheet = sheetId;
+            currentSortColumn = -1;
+            currentSortOrder = 'asc';
+            updateTable(currentLanguage);
+        });
+    });
 }
 
 function isWithinDateRange(dateToCheck, rangeString) {
@@ -147,16 +207,17 @@ function parseDateFromRange(rangeStr, useStart) {
 
 // Table update and filtering functions
 function updateTable(language) {
-    if (!sheetData) {
-        console.error("Geen gegevens beschikbaar.");
+    if (!sheetData[currentSheet]) {
+        console.error(`No data available for sheet ${currentSheet}.`);
         return;
     }
+    
     const codeToDesc = createClassificationMap(classificatieData);
     currentLanguage = language;
     const tableContainer = document.getElementById("table-container");
     tableContainer.innerHTML = "";
-    const headers = sheetData.headers[language];
-    const data = sheetData.data;
+    const headers = sheetData[currentSheet].headers[language];
+    const data = sheetData[currentSheet].data;
 
     let table = document.createElement("table");
     table.border = "1";

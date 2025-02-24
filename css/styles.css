@@ -129,3 +129,34 @@ body {
       width: 100%;
     }
   }
+
+  .tabs-container {
+    max-width: 1000px;
+    margin: 20px auto;
+  }
+
+  .tab-buttons {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+  }
+
+  .tab-button {
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px 4px 0 0;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .tab-button.active {
+    background-color: #1f497d;
+    color: white;
+    border-bottom-color: #1f497d;
+  }
+
+  .tab-button:hover:not(.active) {
+    background-color: #e0e0e0;
+  }
